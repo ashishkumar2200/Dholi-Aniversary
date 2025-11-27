@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Gift Surprise</title>
+  <meta charset="UTF-8" />
+  <title>Happy Anniversary Dholi</title>
   <style>
     body {
       margin: 0;
@@ -18,7 +18,6 @@
     .box-container {
       text-align: center;
       cursor: pointer;
-      position: relative;
     }
 
     .gift-box {
@@ -36,7 +35,7 @@
       position: absolute;
       width: 100%;
       height: 20px;
-      background: #fff;
+      background: #ffffff;
       top: 50%;
       transform: translateY(-50%);
     }
@@ -52,30 +51,29 @@
       transition: 0.6s;
     }
 
-    .box-container.opened .gift-lid {
+    .opened .gift-lid {
       transform: rotate(25deg) translateY(-80px);
     }
 
     .message {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, 40px);
-      font-size: 30px;
+      margin-top: 30px;
+      font-size: 28px;
       font-weight: bold;
-      color: #fff;
-      text-shadow: 2px 2px 5px black;
+      color: #ffffff;
+      text-shadow: 2px 2px 5px #000;
       opacity: 0;
-      pointer-events: none;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
       white-space: nowrap;
     }
 
-    .box-container.opened .message {
-      animation: riseText 1.2s ease-out forwards;
+    .message.show {
+      opacity: 1;
+      transform: translateY(-10px);
     }
 
     .confetti {
-      position: absolute;
+      position: fixed;
       width: 10px;
       height: 10px;
       background: gold;
@@ -88,17 +86,6 @@
       50% { transform: translateY(-15px); }
     }
 
-    @keyframes riseText {
-      0% {
-        transform: translate(-50%, 40px);
-        opacity: 0;
-      }
-      100% {
-        transform: translate(-50%, -100px);
-        opacity: 1;
-      }
-    }
-
     @keyframes fall {
       0% { transform: translateY(-10px) rotate(0); }
       100% { transform: translateY(100vh) rotate(360deg); }
@@ -108,28 +95,34 @@
 <body>
 
 <div class="box-container" onclick="openGift()">
-  <div class="gift-box">
-    <div class="gift-lid"></div>
+  <div class="gift-box opened-box" id="giftBox">
+    <div class="gift-lid" id="giftLid"></div>
   </div>
-  <div class="message">Happy Anniversary 🎉 Dholi</div>
+  <div class="message" id="msg">Happy Anniversary 🎉 Dholi</div>
 </div>
 
 <script>
   function openGift() {
-    const container = document.querySelector('.box-container');
-    if (container.classList.contains('opened')) return; // so it doesn't repeat
-    container.classList.add('opened');
+    const lid = document.getElementById('giftLid');
+    const msg = document.getElementById('msg');
+
+    // open lid
+    lid.parentElement.classList.add('opened');
+
+    // show text
+    msg.classList.add('show');
+
+    // confetti
     createConfetti();
   }
 
   function createConfetti() {
     for (let i = 0; i < 60; i++) {
-      let conf = document.createElement("div");
-      conf.className = "confetti";
-      conf.style.left = Math.random() * 100 + "vw";
-      conf.style.backgroundColor =
-        ["#ffeb3b", "#ff4081", "#00e5ff", "#76ff03"][Math.floor(Math.random() * 4)];
-      conf.style.animationDuration = (Math.random() * 2 + 2) + "s";
+      const conf = document.createElement('div');
+      conf.className = 'confetti';
+      conf.style.left = Math.random() * 100 + 'vw';
+      conf.style.backgroundColor = ['#ffeb3b', '#ff4081', '#00e5ff', '#76ff03'][Math.floor(Math.random() * 4)];
+      conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
       document.body.appendChild(conf);
     }
   }
