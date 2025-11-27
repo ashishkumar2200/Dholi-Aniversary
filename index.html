@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gift Surprise</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(45deg, #ff4e50, #f9d423);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .box-container {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .gift-box {
+      width: 150px;
+      height: 150px;
+      background: #ff1744;
+      position: relative;
+      border-radius: 10px;
+      animation: bounce 2s infinite;
+    }
+
+    .gift-box::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 20px;
+      background: #fff;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .gift-lid {
+      width: 160px;
+      height: 40px;
+      background: #d50000;
+      position: absolute;
+      top: -40px;
+      left: -5px;
+      border-radius: 10px;
+      transition: 0.6s;
+    }
+
+    .opened .gift-lid {
+      transform: rotate(25deg) translateY(-80px);
+    }
+
+    .message {
+      display: none;
+      font-size: 40px;
+      font-weight: bold;
+      color: white;
+      margin-top: 30px;
+      text-shadow: 2px 2px 5px black;
+      animation: pop 1s ease forwards;
+    }
+
+    .opened .message {
+      display: block;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: gold;
+      top: 0;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="box-container" onclick="openGift()">
+  <div class="gift-box" id="gift">
+    <div class="gift-lid"></div>
+  </div>
+  <div class="message" id="msg">💖 Happy Anniversary Dholi 💖</div>
+</div>
+
+<script>
+  function openGift() {
+    document.getElementById("gift").classList.add("opened");
+    document.getElementById("msg").classList.add("opened");
+    createConfetti();
+  }
+
+  function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+      let conf = document.createElement("div");
+      conf.className = "confetti";
+      conf.style.left = Math.random() * 100 + "vw";
+      conf.style.backgroundColor = 
+        ["#ffeb3b", "#ff4081", "#00e5ff", "#76ff03"][Math.floor(Math.random()*4)];
+      conf.style.animationDuration = (Math.random() * 2 + 2) + "s";
+      document.body.appendChild(conf);
+    }
+  }
+</script>
+
+</body>
+</html>
