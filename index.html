@@ -18,6 +18,7 @@
     .box-container {
       text-align: center;
       cursor: pointer;
+      position: relative;
     }
 
     .gift-box {
@@ -27,6 +28,7 @@
       position: relative;
       border-radius: 10px;
       animation: bounce 2s infinite;
+      margin: 0 auto;
     }
 
     .gift-box::before {
@@ -50,22 +52,26 @@
       transition: 0.6s;
     }
 
-    .opened .gift-lid {
+    .box-container.opened .gift-lid {
       transform: rotate(25deg) translateY(-80px);
     }
 
     .message {
-      display: none;
-      font-size: 40px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, 40px);
+      font-size: 30px;
       font-weight: bold;
-      color: white;
-      margin-top: 30px;
+      color: #fff;
       text-shadow: 2px 2px 5px black;
-      animation: pop 1s ease forwards;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
     }
 
-    .opened .message {
-      display: block;
+    .box-container.opened .message {
+      animation: riseText 1.2s ease-out forwards;
     }
 
     .confetti {
@@ -82,9 +88,15 @@
       50% { transform: translateY(-15px); }
     }
 
-    @keyframes pop {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
+    @keyframes riseText {
+      0% {
+        transform: translate(-50%, 40px);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -100px);
+        opacity: 1;
+      }
     }
 
     @keyframes fall {
@@ -96,26 +108,27 @@
 <body>
 
 <div class="box-container" onclick="openGift()">
-  <div class="gift-box" id="gift">
+  <div class="gift-box">
     <div class="gift-lid"></div>
   </div>
-  <div class="message" id="msg">💖 Happy Anniversary Dholi 💖</div>
+  <div class="message">Happy Anniversary 🎉 Dholi</div>
 </div>
 
 <script>
   function openGift() {
-    document.getElementById("gift").classList.add("opened");
-    document.getElementById("msg").classList.add("opened");
+    const container = document.querySelector('.box-container');
+    if (container.classList.contains('opened')) return; // so it doesn't repeat
+    container.classList.add('opened');
     createConfetti();
   }
 
   function createConfetti() {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {
       let conf = document.createElement("div");
       conf.className = "confetti";
       conf.style.left = Math.random() * 100 + "vw";
-      conf.style.backgroundColor = 
-        ["#ffeb3b", "#ff4081", "#00e5ff", "#76ff03"][Math.floor(Math.random()*4)];
+      conf.style.backgroundColor =
+        ["#ffeb3b", "#ff4081", "#00e5ff", "#76ff03"][Math.floor(Math.random() * 4)];
       conf.style.animationDuration = (Math.random() * 2 + 2) + "s";
       document.body.appendChild(conf);
     }
